@@ -1,0 +1,123 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+  p
+  {
+    solver          PBiCGStab;
+    preconditioner  DIC;
+    tolerance       1e-06;
+    relTol          0.05;
+  }
+  pFinal
+  {
+    $p;
+    smoother      DICGaussSeidel;
+    tolerance     1e-06;
+    relTol        0;
+  }
+
+  "(U|T)"
+  {
+    solver        smoothSolver;
+    smoother      symGaussSeidel;
+    tolerance     1e-05;
+    relTol        0.05;
+  }
+  "(U|T)Final"
+  {
+    $U;
+    tolerance     1e-05;
+    relTol        0;
+  }
+  PotE
+  {
+    solver          PBiCGStab;
+    preconditioner  DIC;
+    tolerance       1e-05;
+    relTol          0.001;
+  };
+  PotEFinal
+  {
+    $PotE;
+    smoother      DICGaussSeidel;
+    tolerance     1e-07;
+  };
+}
+
+PIMPLE
+{
+  /*
+    if nOuterCorrectos = 1
+    Pimple reduce to Piso     
+  */
+  nOuterCorrectors          50;
+  nCorrectors               2;
+  nNonOrthogonalCorrectors  0;
+  pRefCell                  1001;
+  pRefValue                 0;
+
+  residualControl
+  {
+    p
+    {
+      relTol      0;
+      // if this tolerance is reached, leave
+      tolerance   1e-05;
+    }
+    U
+    {
+      relTol      0;
+      // if this tolerance is reached, leave
+      tolerance   1e-05;
+    }
+  }
+}
+
+relaxationFactors
+// Relaxation factors will slow down the solve
+// by limiting how much the solution varies between iterations.
+// I.e. if factor(p)=0.3, currently p=10 and next step calculates p=30,
+// p is instead set to p=0.3*30 + 0.7*10
+// These may not be needed, but PIMPLE notes recommend it
+{
+  fields
+  {
+    p         0.3;
+    pFinal    1;
+  }
+  equations
+  {
+    U         0.6;
+    UFinal    1;
+    T         0.6;
+    TFinal    1;
+    PotE      0.6;
+    PotEFinal 1;
+  }
+}
+
+PotE
+{
+  nCorrectors               3;
+  nNonOrthogonalCorrectors  0;
+  PotERefCell               0;
+  PotERefValue              0;
+}
+
+
+// ************************************************************************* //

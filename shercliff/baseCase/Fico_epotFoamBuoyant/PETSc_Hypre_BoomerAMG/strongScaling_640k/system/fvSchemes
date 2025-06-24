@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+  default backward; 
+  // other solves e.g. OpenFOAM-10 epotFoam used Euler
+  // "backward" is implicit, 2nd order, transient, conditionally stable, boundedness not guaranteed
+  // "Euler" is implicit, 1st order, transient
+}
+
+gradSchemes
+{
+  default        Gauss linear;
+}
+
+divSchemes
+{
+  default         Gauss linear;
+  div(phi,U)      Gauss linear;
+  div(phi,T)      Gauss linear;
+  div((nuEff*dev(T(grad(U))))) Gauss linear;
+}
+
+laplacianSchemes
+{
+  default        Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+  default                linear;
+}
+
+snGradSchemes
+{
+  default         orthogonal;   // changed - was corrected but using cartesian grid
+}
+
+// ************************************************************************* //

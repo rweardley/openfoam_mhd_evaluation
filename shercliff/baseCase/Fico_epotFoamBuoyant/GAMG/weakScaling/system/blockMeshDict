@@ -1,0 +1,102 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2212                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version     2.0;
+  format      ascii;
+  class       dictionary;
+  object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale   1;
+
+// the updated blockMesh (openfoam.com) fails on some meshes with default options;
+// it reports report inconsistent number of faces although the mesh is still OK.
+// this happens where two 'wedge' blocks with different numbers of cells join in the same
+// point/edge.
+mergeType points;
+checkFaceCorrespondence false;
+
+d 1;            // aspect ratio
+
+md #calc "0 - $d";
+
+vertices
+(
+  (0 -1 $md)  // 0
+  (20 -1 $md) // 1
+  (20 1 $md)  // 2
+  (0 1 $md)   // 3
+  (0 -1 $d)   // 4
+  (20 -1 $d)  // 5
+  (20 1 $d)   // 6
+  (0 1 $d)    // 7
+);
+
+blocks
+(
+  hex (0 1 2 3 4 5 6 7) (50 20 10) simpleGrading (1 1 1)
+);
+
+
+edges
+();
+
+boundary
+(
+  top
+  {
+    type patch;
+    faces
+    (
+      (7 6 2 3)
+    );
+  }
+  sides
+  {
+    type patch;
+    faces
+    (
+      (0 1 2 3)
+      (4 5 6 7)
+    );
+  }
+  outlet
+  {
+    type wall;
+    faces
+    (
+      (5 1 2 6)
+    );
+  }
+  inlet
+  {
+    type patch;
+    faces
+    (
+      (4 0 3 7)    
+    );
+  }
+  bottom
+  {
+    type wall;
+    faces
+    (
+      (4 5 1 0)  
+    );
+  }
+);
+
+mergePatchPairs
+();
+
+faces
+();
+
+// ************************************************************************* //
