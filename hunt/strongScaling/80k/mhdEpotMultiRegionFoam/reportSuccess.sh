@@ -7,7 +7,7 @@ do
   	dir="P_$cores"
         if [[ -d $dir ]]
         then
-                if [ -d "$dir/"[1-2]* ]
+                if [[ -d "$dir/1" && -d "$dir/2" ]]
                 then
                     	echo "$dir: Success"
                 else
