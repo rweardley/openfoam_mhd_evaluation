@@ -3,6 +3,9 @@ log.*
 slurm-*
 machine.file.*
 
+# Temporary directories set up for scaling runs
+**/P_*
+
 # Timestep directories
 **/0.*
 **/[1-9]*
