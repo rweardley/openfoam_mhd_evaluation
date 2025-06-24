@@ -18,17 +18,15 @@ solvers
 {   
     PotE
     {
-        solver           GAMG;
+        solver           FPCG;
+        preconditioner   DIC;
         tolerance        1e-6;
-        relTol           0.0;
-        nCellsInCoarsestLevel 500;
-        smoother         DICGaussSeidel;
+        relTol           0.05;
     }
     
     PotEFinal
     {
         $PotE;
-        tolerance        1e-6;
         relTol           0;  
     }    
 }
