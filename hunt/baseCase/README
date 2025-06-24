@@ -1,0 +1,8 @@
+These are base cases written for execution on 1 core to ensure consistency.
+Copy these to working directories and rename to P_1 for duplication for more cores.
+
+Note that these are written with decomposePar files, set to 1 process and (1 1 1) decomposition.
+This file is never run for the single core case but is here to enable easy duplication and modification for parallel runs.
+
+Update:
+These have now been changed to use Scotch decomposition, since this is easier to use for using 76 cores on a node.
