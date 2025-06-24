@@ -50,6 +50,7 @@ machine.file.*
 **/constant/polyMesh/boundary*
 **/constant/polyMesh/sets
 **/constant/polyMesh/*
+**/constant/**/polyMesh/*
 
 # fluent mesh data
 *.msh
