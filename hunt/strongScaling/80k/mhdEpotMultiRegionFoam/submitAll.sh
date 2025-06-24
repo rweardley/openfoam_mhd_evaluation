@@ -3,7 +3,7 @@
 # for folder in folders
 # if folder exists, cd into folder, sbatch if it exists, then cd back out
 
-coresAll=(1 2 4 8 14 28 56 112 224 448 896)
+coresAll=(1 2 4 8 14 28 56 112 224 448)
 
 for cores in ${coresAll[@]}
 do
@@ -12,9 +12,9 @@ do
 	then
 		echo "Directory $dir exists"
 		cd $dir
-		if [[ -f shercliff.sapphire ]]
+		if [[ -f hunt.sapphire ]]
 		then
-			sbatch shercliff.sapphire
+			sbatch hunt.sapphire
 		else
 			echo "No submission script found in $dir"
 		fi

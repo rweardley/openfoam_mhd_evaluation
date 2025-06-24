@@ -1,24 +1,14 @@
 #!/bin/bash
 
-
-script_full_path=$(dirname "$(realpath "$0")")
-if [[ ! -d P_1 ]]
-then
-	baseCase="/home/ir-muha1/codes/mhdvalidation_openfoam-master/shercliff/baseCase/basecase_mhdEpotMultiRegionFoam_Ha20_strongScaling_80k/"
-	cp -r $baseCase "$script_full_path/P_1"
-fi
-
 maxCoresPerNode=112
 
-coresAllBut1=(2 4 8 14 28 56 112 224 448 896 )
-
-
+coresAllBut1=(2 4 8 14 28 56 112 224 448)
 
 for i in ${!coresAllBut1[@]}
 do
   	cores=${coresAllBut1[i]}
 	dir="P_$cores"
-	runScript_dirFull="$script_full_path/$dir/shercliff.sh"
+	runScript_dirFull="$script_full_path/$dir/hunt.sh"
 	if [ $cores -gt $maxCoresPerNode ]
 	then
 		coresPerNode=$maxCoresPerNode
@@ -40,11 +30,11 @@ do
 			sed -i s/"numberOfSubdomains 1"/"numberOfSubdomains $cores"/g $dir/system/walls/decomposeParDict
 			sed -i s/"numberOfSubdomains 1"/"numberOfSubdomains $cores"/g $dir/system/fluid/decomposeParDict
 			
-			sed -i s/"cores=1"/"cores=$cores"/g $dir/shercliff.sh
+			sed -i s/"cores=1"/"cores=$cores"/g $dir/hunt.sh
 			
-			sed -i s/"P_1"/"P_$cores"/g $dir/shercliff.sapphire
-			sed -i s/"#SBATCH --ntasks-per-node=1"/"#SBATCH --ntasks-per-node=$coresPerNode"/g $dir/shercliff.sapphire
-			sed -i s/"#SBATCH --nodes=1"/"#SBATCH --nodes=$nodes"/g $dir/shercliff.sapphire
+			sed -i s/"P_1"/"P_$cores"/g $dir/hunt.sapphire
+			sed -i s/"#SBATCH --ntasks-per-node=1"/"#SBATCH --ntasks-per-node=$coresPerNode"/g $dir/hunt.sapphire
+			sed -i s/"#SBATCH --nodes=1"/"#SBATCH --nodes=$nodes"/g $dir/hunt.sapphire
         else
             	echo "Directory $dir already exists!"
         fi
