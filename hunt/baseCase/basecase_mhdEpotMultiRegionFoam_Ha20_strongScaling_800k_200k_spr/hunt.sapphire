@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#SBATCH -J spr_P_1_800k_200k_mhdEpotMultiRegionFoam_Ha20_strongScaling
+#SBATCH -A UKAEA-AP002-CPU
+#SBATCH -p ukaea-spr
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=10:00:00
+#SBATCH --mail-type=NONE
+#SBATCH --no-requeue
+#SBATCH --exclusive
+
+./hunt.sh
