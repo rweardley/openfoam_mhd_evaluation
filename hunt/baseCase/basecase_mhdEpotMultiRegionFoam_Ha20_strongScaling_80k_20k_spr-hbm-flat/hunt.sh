@@ -28,7 +28,7 @@ if [[ $cores -eq 1 ]]
 then
 	run=$SOLVER
 else
-	run="mpirun --map-by numa numactl --preferred-many=8-15 -np $cores $SOLVER -parallel"
+	run="mpirun -np $cores --map-by numa numactl --preferred-many=8-15 $SOLVER -parallel"
 fi
 
 epotFoamCurrent_start=$(date +%s.%3N)
