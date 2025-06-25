@@ -1,6 +1,6 @@
 #!/bin/bash
 
-coresAllBut1=(2 4 8 14 28 56 112 224 448)
+coresAllBut1=(2 4 8 14 28 56 112 224 336 448)
 
 for cores in ${coresAllBut1[@]}
 do

@@ -3,7 +3,7 @@
 # for folder in folders
 # if folder exists, cd into folder, sbatch if it exists, then cd back out
 
-coresAll=(28 56 112 224 448)
+coresAll=(28 56 112 224 336 448)
 
 for cores in ${coresAll[@]}
 do
