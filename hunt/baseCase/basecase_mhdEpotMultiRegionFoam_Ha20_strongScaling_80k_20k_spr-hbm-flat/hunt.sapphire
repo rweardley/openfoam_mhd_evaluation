@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH -J mhdEpotMultiRegionFoam_Ha20_strongScaling_80k_P_1
+#SBATCH -J spr-hbm-flat_P_1_80k_20k_mhdEpotMultiRegionFoam_Ha20_strongScaling
 #SBATCH -A UKAEA-AP002-CPU
 #SBATCH -p ukaea-spr-hbm-flat
 #SBATCH --nodes=1
