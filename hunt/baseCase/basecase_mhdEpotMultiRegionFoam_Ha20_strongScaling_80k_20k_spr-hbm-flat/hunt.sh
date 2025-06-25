@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/.openfoam_v2306_sapphire_profile
+source ~/.openfoam_v2306_sapphire_rocky9_profile
 
 SOLVER="mhdEpotMultiRegionFoam"
 
