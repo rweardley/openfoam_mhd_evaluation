@@ -14,7 +14,7 @@ then
 	# 	PIMPLE_nCorrectors=2
 	# elif [[ $caseSize == "800k_200k" ]]; then
 	# 	PIMPLE_nCorrectors=3
-	fi
+	#fi
 else
 	echo "Invalid case size"
 	exit
