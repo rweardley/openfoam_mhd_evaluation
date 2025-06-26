@@ -6,6 +6,15 @@ simutime_label_col=0
 simutime_label="Time"
 simutime_col=2
 
+PIMPLE_nCorrectors=$2
+if [[ $PIMPLE_nCorrectors == "2" ]] || [[ $PIMPLE_nCorrectors == "3" ]]
+then
+	echo "Setting up for $PIMPLE_nCorrectors PIMPLE nCorrectors"
+else
+	echo "Script not set up for $PIMPLE_nCorrectors PIMPLE nCorrectors; exiting"
+	exit
+fi
+
 CFL_label_col=2
 CFL_label="Courant"
 CFL_mean_col=5
@@ -31,7 +40,11 @@ walltime_label_col=0
 walltime_label="ExecutionTime"
 walltime_col=2
 
-printf "[0]SimTime,[1]CFLmean,[2]CFLmax,[3]UxResid,[4]UxIters,[5]UyResid,[6]UyIters,[7]UzResid,[8]UzIters,[9]pResid_1,[10]pIters_1,[11]pResid_2,[12]pIters_2,[13]pResid_3,[14]pIters_3,[15]PotEResid,[16]PotEIters,[17]ExecTime\n"
+if [[ $PIMPLE_nCorrectors == "2" ]]; then
+	printf "[0]SimTime,[1]CFLmean,[2]CFLmax,[3]UxResid,[4]UxIters,[5]UyResid,[6]UyIters,[7]UzResid,[8]UzIters,[9]pResid_1,[10]pIters_1,[11]pResid_2,[12]pIters_2,[13]PotEResid,[14]PotEIters,[15]ExecTime\n"
+elif [[ $PIMPLE_nCorrectors == "3" ]]; then
+  printf "[0]SimTime,[1]CFLmean,[2]CFLmax,[3]UxResid,[4]UxIters,[5]UyResid,[6]UyIters,[7]UzResid,[8]UzIters,[9]pResid_1,[10]pIters_1,[11]pResid_2,[12]pIters_2,[13]pResid_3,[14]pIters_3,[15]PotEResid,[16]PotEIters,[17]ExecTime\n"
+fi
 
 pRepeats=1
 while read -r -a columns; do
@@ -75,6 +88,11 @@ while read -r -a columns; do
 		fi
 	elif [[ ${columns[walltime_label_col]} = $walltime_label ]]; then
                 walltime="${columns[walltime_col]}"
-                printf "%s,%s,%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s\n" $simTime $CFL_mean $CFL_max $Ux_Resid $Ux_Iters $Uy_Resid $Uy_Iters $Uz_Resid $Uz_Iters $pResid_1 $pIters_1 $pResid_2 $pIters_2 $pResid_3 $pIters_3 $PotE_Resid $PotE_Iters $walltime
+								if [[ $PIMPLE_nCorrectors == "2" ]]; then
+									printf "%s,%s,%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s\n" $simTime $CFL_mean $CFL_max $Ux_Resid $Ux_Iters $Uy_Resid $Uy_Iters $Uz_Resid $Uz_Iters $pResid_1 $pIters_1 $pResid_2 $pIters_2 $PotE_Resid $PotE_Iters $walltime
+								elif [[ $PIMPLE_nCorrectors == "3" ]]; then
+								  printf "%s,%s,%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s%s,%s\n" $simTime $CFL_mean $CFL_max $Ux_Resid $Ux_Iters $Uy_Resid $Uy_Iters $Uz_Resid $Uz_Iters $pResid_1 $pIters_1 $pResid_2 $pIters_2 $pResid_3 $pIters_3 $PotE_Resid $PotE_Iters $walltime
+								fi
+                
         fi
 done <$infile
