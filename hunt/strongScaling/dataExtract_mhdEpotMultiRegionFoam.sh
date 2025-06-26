@@ -9,7 +9,7 @@ simutime_col=2
 PIMPLE_nCorrectors=$2
 if [[ $PIMPLE_nCorrectors == "2" ]] || [[ $PIMPLE_nCorrectors == "3" ]]
 then
-	echo "Setting up for $PIMPLE_nCorrectors PIMPLE nCorrectors"
+	:
 else
 	echo "Script not set up for $PIMPLE_nCorrectors PIMPLE nCorrectors; exiting"
 	exit
