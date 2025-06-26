@@ -4,14 +4,25 @@
 
 coresAll=(1 2 4 8 14 28 56 112 224 336 448)
 
-echo -e "Case (leave blank for weakScaling): [80k/800k]"
-read caseDir
+echo -e "Problem Size: [80k_20k/800k_200k]"
+read caseSize
 
-if [[ $caseDir == "80k" ]] || [[ $caseDir == "800k" ]]
+if [[ $caseSize == "80k_20k" ]] || [[ $caseSize == "800k_200k" ]]
 then
-	echo "Valid case"
+	echo "Valid case size"
 else
-	echo "Invalid case"
+	echo "Invalid case size"
+	exit
+fi
+
+echo -e "Node Type: [spr/spr-hbm/spr-hbm-flat]"
+read nodeType
+
+if [[ $nodeType == "spr" ]] || [[ $nodeType == "spr-hbm" ]] || [[ $nodeType == "spr-hbm-flat" ]]
+then
+	echo "Valid node type"
+else
+	echo "Invalid node type"
 	exit
 fi
 
@@ -26,11 +37,12 @@ else
   exit
 fi
 
-script="mhdEpotMultiRegionFoam"
 solver="mhdEpotMultiRegionFoam"
+script="$solver"
+case="${solver}_${nodeType}"
 
-inDir="$caseDir/$solver"
-outDir="out/$caseDir.$solver.out_$(date +"%Y_%m_%d_%H%M")"
+inDir="$caseSize/$case"
+outDir="out/$caseSize.$case.out_$(date +"%Y_%m_%d_%H%M")"
 
 if [[ ! -d $outDir ]]
 then
