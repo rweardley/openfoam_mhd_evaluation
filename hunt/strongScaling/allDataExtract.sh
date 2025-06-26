@@ -10,11 +10,6 @@ read caseSize
 if [[ $caseSize == "80k_20k" ]] || [[ $caseSize == "800k_200k" ]]
 then
 	echo "Valid case size"
-	# if [[ $caseSize == "80k_20k" ]]; then
-	# 	PIMPLE_nCorrectors=2
-	# elif [[ $caseSize == "800k_200k" ]]; then
-	# 	PIMPLE_nCorrectors=3
-	#fi
 else
 	echo "Invalid case size"
 	exit
@@ -66,7 +61,6 @@ then
       if [[ -f $solverlog ]]
 	    then
         echo "Found $solverlog"
-				# ./dataExtract_$script.sh $solverlog $PIMPLE_nCorrectors > $outDir/timing/P_$cores
 				./dataExtract_$script.sh $solverlog > $outDir/timing/P_$cores
 	    else
         echo "$solverlog not found"
