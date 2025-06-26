@@ -6,25 +6,26 @@ simutime_label_col=0
 simutime_label="Time"
 simutime_col=2
 
-CFL_label_col=0
+CFL_label_col=2
 CFL_label="Courant"
-CFL_mean_col=3
-CFL_max_col=5
+CFL_mean_col=5
+CFL_max_col=7
 
 solver_label_col=0
 solver_var_label_col=3
 solver_FiResid_col=11
 solver_iters_col=14
 
-smoothSolver_label="smoothSolver:"
-DICPCG_label="DICPCG:"
+velocitySolver_label="DILUPBiCGStab:"
+pressureSolver_label="DICFPCG:"
+epotSolver_label="DICFPCG:"
 
-smoothSolver_Ux_label="Ux,"
-smoothSolver_Uy_label="Uy,"
-smoothSolver_Uz_label="Uz,"
+velocitySolver_Ux_label="Ux,"
+velocitySolver_Uy_label="Uy,"
+velocitySolver_Uz_label="Uz,"
 
-DICPCG_p_label="p,"
-DICPCG_PotE_label="PotE,"
+pressureSolver_p_label="p,"
+pressureSolver_PotE_label="PotE,"
 
 walltime_label_col=0
 walltime_label="ExecutionTime"
@@ -42,19 +43,19 @@ while read -r -a columns; do
 		CFL_mean="${columns[CFL_mean_col]}"
 		CFL_max="${columns[CFL_max_col]}"
 	# ssUx,y,z, Bx,y,z resid & iters
-	elif [[ ${columns[solver_label_col]} = $smoothSolver_label ]]; then
-		if [[ ${columns[solver_var_label_col]} = $smoothSolver_Ux_label ]]; then
+	elif [[ ${columns[solver_label_col]} = $velocitySolver_label ]]; then
+		if [[ ${columns[solver_var_label_col]} = $velocitySolver_Ux_label ]]; then
 			Ux_Resid="${columns[solver_FiResid_col]}"
 			Ux_Iters="${columns[solver_iters_col]}"
-		elif [[ ${columns[solver_var_label_col]} = $smoothSolver_Uy_label ]]; then
+		elif [[ ${columns[solver_var_label_col]} = $velocitySolver_Uy_label ]]; then
 			Uy_Resid="${columns[solver_FiResid_col]}"
 			Uy_Iters="${columns[solver_iters_col]}"
-		elif [[ ${columns[solver_var_label_col]} = $smoothSolver_Uz_label ]]; then
+		elif [[ ${columns[solver_var_label_col]} = $velocitySolver_Uz_label ]]; then
 			Uz_Resid="${columns[solver_FiResid_col]}"
 			Uz_Iters="${columns[solver_iters_col]}"
 		fi
-	elif [[ ${columns[solver_label_col]} = $DICPCG_label ]]; then
-		if [[ ${columns[solver_var_label_col]} = $DICPCG_p_label ]]; then
+	elif [[ ${columns[solver_label_col]} = $pressureSolver_label ]] || [[ ${columns[solver_label_col]} = $epotSolver_label ]]; then
+		if [[ ${columns[solver_var_label_col]} = $pressureSolver_p_label ]]; then
 			if [[ $pRepeats = 1 ]]; then
 				pResid_1="${columns[solver_FiResid_col]}"
 				pIters_1="${columns[solver_iters_col]}"
@@ -68,7 +69,7 @@ while read -r -a columns; do
 				pIters_3="${columns[solver_iters_col]}"
 				pRepeats=1
 			fi
-		elif [[ ${columns[solver_var_label_col]} = $DICPCG_PotE_label ]]; then
+		elif [[ ${columns[solver_var_label_col]} = $pressureSolver_PotE_label ]]; then
 			PotE_Resid="${columns[solver_FiResid_col]}"
 			PotE_Iters="${columns[solver_iters_col]}"
 		fi
